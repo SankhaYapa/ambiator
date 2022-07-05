@@ -82,6 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               bottom: size.height / 2.5,
               width: size.width,
               child: Container(
+                decoration: BoxDecoration(border: Border.all(color: kwhite)),
                 alignment: Alignment.center,
                 width: size.width,
                 child: CustomText(
