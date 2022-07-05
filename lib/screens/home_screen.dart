@@ -98,7 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ],
             ),
-            DataTabel(),
+            DataTabel(
+              count: counter.toString(),
+            ),
           ],
         )),
       ),
@@ -109,8 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
 class DataTabel extends StatelessWidget {
   const DataTabel({
     Key? key,
+    required this.count,
   }) : super(key: key);
-
+  final String count;
   @override
   Widget build(BuildContext context) {
     return DataTable(columns: [
@@ -148,7 +151,7 @@ class DataTabel extends StatelessWidget {
           Text('Nos'),
         ),
         DataCell(
-          Text('16'),
+          Text('$count'),
         ),
         DataCell(
           Text('16'),
