@@ -237,6 +237,24 @@ class Dashboard extends StatelessWidget {
   }
 }
 
+List<GDPData> getChartData() {
+  final List<GDPData> chartData = [
+    GDPData('Hours', 1),
+    GDPData('INR Lacs', 8),
+    GDPData('INR/Kwh', 1),
+    GDPData('kW', 1),
+    GDPData('Ltrs/Hr', 1),
+    GDPData('Nos', 1),
+  ];
+  return chartData;
+}
+
+class GDPData {
+  GDPData(this.continent, this.gdp);
+  final String continent;
+  final double gdp;
+}
+
 class IncrementBar extends StatelessWidget {
   const IncrementBar({
     Key? key,
