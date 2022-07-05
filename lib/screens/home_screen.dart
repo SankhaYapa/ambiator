@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String time = '?';
   int counter = 0;
   bool isVisible = true;
+  bool errorText = false;
   late List<GDPData> _chartData;
   @override
   void initState() {
@@ -38,174 +39,178 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(child: Consumer<CounterProvider>(
-        builder: (context, value, child) {
-          return Column(
-            children: [
-              IncrementBar(size: size),
-              Container(
-                // onDoubleTap: () {
-                //   UtilFunction.navigateTo(context, DashboardScreen());
-                // },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: size.width / 1.5,
-                        height: 50,
-                        child: TextField(
-                          decoration: InputDecoration(
-                              hintText: 'Search',
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.black12)),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              )),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            child: Icon(
-                              Icons.filter_alt_sharp,
-                              size: 40,
+      body: SingleChildScrollView(
+        child: Container(
+            height: size.height,
+            child: Consumer<CounterProvider>(
+              builder: (context, value, child) {
+                return Column(
+                  children: [
+                    IncrementBar(size: size),
+                    Container(
+                      // onDoubleTap: () {
+                      //   UtilFunction.navigateTo(context, DashboardScreen());
+                      // },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: size.width / 1.5,
+                              height: 50,
+                              child: TextField(
+                                decoration: InputDecoration(
+                                    hintText: 'Search',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black12)),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                isVisible = !isVisible;
-                                final now = DateTime.now();
-                                time = DateFormat('dd-MM-yy').format(now);
-                              });
-                            },
-                            child: Row(
+                            Row(
                               children: [
-                                Visibility(
-                                  visible: isVisible,
-                                  child: Container(
-                                    child: Icon(
-                                      Icons.dashboard,
-                                      size: 40,
-                                    ),
+                                Container(
+                                  child: Icon(
+                                    Icons.filter_alt_sharp,
+                                    size: 40,
                                   ),
                                 ),
-                                Visibility(
-                                  visible: !isVisible,
-                                  child: Container(
-                                    child: Icon(
-                                      Icons.table_chart,
-                                      size: 40,
-                                    ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isVisible = !isVisible;
+                                      final now = DateTime.now();
+                                      time = DateFormat('dd-MM-yy').format(now);
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Visibility(
+                                        visible: isVisible,
+                                        child: Container(
+                                          child: Icon(
+                                            Icons.dashboard,
+                                            size: 40,
+                                          ),
+                                        ),
+                                      ),
+                                      Visibility(
+                                        visible: !isVisible,
+                                        child: Container(
+                                          child: Icon(
+                                            Icons.table_chart,
+                                            size: 40,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
-                            ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: isVisible,
+                      child: Column(
+                        children: [
+                          TableHeadder(),
+                          TableDetailsRow(
+                            des: "Number of Units",
+                            units: "kW",
+                            amb: value.getNouAm.toString(),
+                            ac: value.getNouAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Connected Power",
+                            units: "Nos",
+                            amb: value.getCpAm.toString(),
+                            ac: value.getCpAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Absorbed Power",
+                            units: "kW",
+                            amb: value.getApAm.toString(),
+                            ac: value.getApAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Water use(Avg)",
+                            units: "Ltrs/Hr.",
+                            amb: value.getWuAm.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Capial Cost",
+                            units: "INR Lacs",
+                            amb: value.getCcAm.toString(),
+                            ac: value.getCcAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Power Tarrif",
+                            units: "INR/kWh",
+                            amb: value.getPtAm.toString(),
+                            ac: value.getPtAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Cooling Season",
+                            units: "Hours",
+                            amb: value.getCsAm.toString(),
+                            ac: value.getCsAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "Oparating Cost/\nYear",
+                            units: "INR Lacs",
+                            amb: value.getOcAm.toString(),
+                            ac: value.getOcAc.toString(),
+                          ),
+                          TableDetailsRow(
+                            des: "CAPEX  Savings ",
+                            units: "INR Lacs",
+                            amb: value.getCSrving.toString(),
+                            align3: TextAlign.right,
+                          ),
+                          TableDetailsRow(
+                            des: "Annual OPEX Savings ",
+                            units: "INR Lacs",
+                            amb: value.getAOseving.toString(),
+                            align3: TextAlign.right,
+                          ),
+                          TableDetailsRow(
+                            des: "Total Savings",
+                            units: "INR Lacs",
+                            amb: value.getTServing.toString(),
+                            align3: TextAlign.right,
                           ),
                         ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: isVisible,
-                child: Column(
-                  children: [
-                    TableHeadder(),
-                    TableDetailsRow(
-                      des: "Number of Units",
-                      units: "kW",
-                      amb: value.getNouAm.toString(),
-                      ac: value.getNouAc.toString(),
+                      ),
                     ),
-                    TableDetailsRow(
-                      des: "Connected Power",
-                      units: "Nos",
-                      amb: value.getCpAm.toString(),
-                      ac: value.getCpAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Absorbed Power",
-                      units: "kW",
-                      amb: value.getApAm.toString(),
-                      ac: value.getApAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Water use(Avg)",
-                      units: "Ltrs/Hr.",
-                      amb: value.getWuAm.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Capial Cost",
-                      units: "INR Lacs",
-                      amb: value.getCcAm.toString(),
-                      ac: value.getCcAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Power Tarrif",
-                      units: "INR/kWh",
-                      amb: value.getPtAm.toString(),
-                      ac: value.getPtAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Cooling Season",
-                      units: "Hours",
-                      amb: value.getCsAm.toString(),
-                      ac: value.getCsAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Oparating Cost/\nYear",
-                      units: "INR Lacs",
-                      amb: value.getOcAm.toString(),
-                      ac: value.getOcAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "CAPEX  Savings ",
-                      units: "INR Lacs",
-                      amb: value.getCSrving.toString(),
-                      align3: TextAlign.right,
-                    ),
-                    TableDetailsRow(
-                      des: "Annual OPEX Savings ",
-                      units: "INR Lacs",
-                      amb: value.getAOseving.toString(),
-                      align3: TextAlign.right,
-                    ),
-                    TableDetailsRow(
-                      des: "Total Savings",
-                      units: "INR Lacs",
-                      amb: value.getTServing.toString(),
-                      align3: TextAlign.right,
+
+                    // Visibility(
+                    //   visible: isVisible,
+                    //   child: DataTabel(
+                    //     count: counter.toString(),
+                    //   ),
+                    // ),
+                    Dashboard(
+                      isVisible: isVisible,
+                      size: size,
+                      chartData: _chartData,
+                      time: time,
                     ),
                   ],
-                ),
-              ),
-
-              // Visibility(
-              //   visible: isVisible,
-              //   child: DataTabel(
-              //     count: counter.toString(),
-              //   ),
-              // ),
-              Dashboard(
-                isVisible: isVisible,
-                size: size,
-                chartData: _chartData,
-                time: time,
-              ),
-            ],
-          );
-        },
-      )),
+                );
+              },
+            )),
+      ),
     );
   }
 }
@@ -346,7 +351,7 @@ class Dashboard extends StatelessWidget {
 
 List<GDPData> getChartData() {
   final List<GDPData> chartData = [
-    GDPData('Hours', 9),
+    GDPData('Hours', CounterProvider().getCsAm),
     GDPData('INR Lacs', 8),
     GDPData('INR/Kwh', 1),
     GDPData('kW', 1),
@@ -363,7 +368,7 @@ class GDPData {
 }
 
 class IncrementBar extends StatelessWidget {
-  const IncrementBar({
+  IncrementBar({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -388,7 +393,7 @@ class IncrementBar extends StatelessWidget {
               height: 100,
               color: kwhite,
               child: Padding(
-                padding: const EdgeInsets.all(13.0),
+                padding: const EdgeInsets.symmetric(horizontal: 13),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -415,10 +420,21 @@ class IncrementBar extends StatelessWidget {
                     ),
                     Consumer<CounterProvider>(
                       builder: (context, value, child) {
-                        return CustomText(
-                          text: value.getCounter.toString(),
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
+                        return Column(
+                          children: [
+                            Text(""),
+                            CustomText(
+                              text: value.getCounter.toString(),
+                              fontSize: 45,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            (value.getIsError)
+                                ? Text(
+                                    value.getMessage,
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : Text(""),
+                          ],
                         );
                       },
                     ),
