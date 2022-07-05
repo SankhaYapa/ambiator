@@ -1,4 +1,5 @@
 import 'package:ambiator/provider/bottom_nar_provider.dart';
+import 'package:ambiator/screens/dashboard_screen.dart';
 import 'package:ambiator/screens/start_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   // int _currentIndex = 0;
-  List<Widget> _screens = [
-    StartScreen(),
-    HomeScreen(),
-  ];
+  List<Widget> _screens = [StartScreen(), HomeScreen()];
   Future<bool> initBackButton() async {
     Logger().d('back button press');
 

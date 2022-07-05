@@ -1,6 +1,8 @@
 import 'package:ambiator/components/custom_text.dart';
 import 'package:ambiator/provider/counter_provider.dart';
+import 'package:ambiator/screens/dashboard_screen.dart';
 import 'package:ambiator/utils/app_colors.dart';
+import 'package:ambiator/utils/util_function.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -47,12 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                // Provider.of<CounterProvider>(context,
-                                //         listen: false)
-                                //     .decreaseCounter();
-                                setState(() {
-                                  counter--;
-                                });
+                                Provider.of<CounterProvider>(context,
+                                        listen: false)
+                                    .decreaseCounter();
+                                // setState(() {
+                                //   counter--;
+                                // });
                               },
                               child: Icon(Icons.remove),
                               style: ElevatedButton.styleFrom(
@@ -62,10 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            CustomText(
-                              text: '$counter',
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
+                            Consumer<CounterProvider>(
+                              builder: (context, value, child) {
+                                return CustomText(
+                                  text: value.getCounter.toString(),
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.bold,
+                                );
+                              },
                             ),
 
                             // Text(
@@ -75,12 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             // ),
                             ElevatedButton(
                               onPressed: () {
-                                // Provider.of<CounterProvider>(context,
-                                //         listen: false)
-                                //     .increaseCounter();
-                                setState(() {
-                                  counter++;
-                                });
+                                Provider.of<CounterProvider>(context,
+                                        listen: false)
+                                    .increaseCounter();
+                                // setState(() {
+                                //   counter++;
+                                // });
                               },
                               child: Icon(Icons.add),
                               style: ElevatedButton.styleFrom(
@@ -97,6 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]),
                 )
               ],
+            ),
+            GestureDetector(
+              onDoubleTap: () {
+                UtilFunction.navigateTo(context, DashboardScreen());
+              },
+              child: Container(
+                child: CustomText(text: 'Dashboard'),
+              ),
             ),
             DataTabel(
               count: counter.toString(),

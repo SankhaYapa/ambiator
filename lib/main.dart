@@ -5,6 +5,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 
 import 'provider/bottom_nar_provider.dart';
 import 'provider/counter_provider.dart';
+import 'screens/dashboard_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/start_screen.dart';
 

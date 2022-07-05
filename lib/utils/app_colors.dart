@@ -11,3 +11,5 @@ const korange = Color(0xffFF7000);
 const mainBG = Color(0xfff6F6F6);
 const kgreen = Color(0xff6DC54A);
 const kpink = Color(0xffEA2027);
+const dashback = Color(0xff34495e);
+const boxcl = Color(0xff30336b);
