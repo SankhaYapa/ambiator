@@ -21,6 +21,8 @@ class CounterProvider extends ChangeNotifier {
   double _c_saving = 16;
   double _ao_saing = 8.32;
   double _t_saving = 24.32;
+  String _message = '';
+  bool _is_error = false;
 
   int get getCounter => _counter;
   double get getNouAm => _nou_am;
@@ -41,20 +43,28 @@ class CounterProvider extends ChangeNotifier {
   double get getCSrving => _c_saving;
   double get getAOseving => _ao_saing;
   double get getTServing => _t_saving;
+  String get getMessage => _message;
+  bool get getIsError => _is_error;
 
   void increaseCounter() {
     if (_counter == 500) {
       _counter = _counter;
+      _message = "The heigher limit is 500";
+      _is_error = true;
     } else {
       _counter = _counter + 5;
+      _is_error = false;
     }
   }
 
   void decreaseCounter() {
     if (_counter == 5) {
       _counter = _counter;
+      _message = "The lower limit is 5";
+      _is_error = true;
     } else {
       _counter = _counter - 5;
+      _is_error = false;
     }
   }
 
