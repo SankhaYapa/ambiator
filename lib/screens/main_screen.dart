@@ -1,6 +1,7 @@
 import 'package:ambiator/provider/bottom_nar_provider.dart';
 import 'package:ambiator/screens/dashboard_screen.dart';
 import 'package:ambiator/screens/start_screen.dart';
+import 'package:ambiator/utils/util_function.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -57,12 +58,11 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     BottomNavTile(
-                      text: 'START',
-                      isSelected: value.activeIndex == 0,
-                      ontap: () {
-                        value.onItemTapped(0);
-                      },
-                    ),
+                        text: 'START',
+                        isSelected: value.activeIndex == 0,
+                        ontap: () {
+                          value.onItemTapped(0);
+                        }),
                     BottomNavTile(
                       text: 'CALCULATE',
                       isSelected: value.activeIndex == 1,
