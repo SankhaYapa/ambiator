@@ -21,6 +21,13 @@ class CounterProvider extends ChangeNotifier {
   double _c_saving = 16;
   double _ao_saing = 8.32;
   double _t_saving = 24.32;
+  String _message1 = '';
+  String _message2 = '';
+  String _message3 = '';
+
+  bool _is_error1 = false;
+  bool _is_error2 = false;
+  bool _is_error3 = false;
 
   int get getCounter => _counter;
   double get getNouAm => _nou_am;
@@ -41,20 +48,90 @@ class CounterProvider extends ChangeNotifier {
   double get getCSrving => _c_saving;
   double get getAOseving => _ao_saing;
   double get getTServing => _t_saving;
+  String get getMessage1 => _message1;
+  String get getMessage2 => _message2;
+  String get getMessage3 => _message3;
+  bool get getIsError1 => _is_error1;
+  bool get getIsError2 => _is_error2;
+  bool get getIsError3 => _is_error3;
 
   void increaseCounter() {
     if (_counter == 500) {
       _counter = _counter;
+      _message1 = "The higher limit is 500";
+      _is_error1 = true;
     } else {
       _counter = _counter + 5;
+      _is_error1 = false;
     }
+  }
+
+  void count() {
+    Future.delayed(Duration(seconds: 10), () {
+      _is_error1 = false;
+    });
   }
 
   void decreaseCounter() {
     if (_counter == 5) {
       _counter = _counter;
+      _message1 = "The lower limit is 5";
+      _is_error1 = true;
     } else {
       _counter = _counter - 5;
+      _is_error1 = false;
+    }
+  }
+
+  void increasePT() {
+    if (_pt_am == 20) {
+      _pt_am = _pt_am;
+      _pt_ac = _pt_ac;
+      _message2 = "The higher limit is 20";
+      _is_error2 = true;
+    } else {
+      _pt_am = _pt_am + 0.5;
+      _pt_ac = _pt_ac + 0.5;
+      _is_error2 = false;
+    }
+  }
+
+  void decreasePT() {
+    if (_pt_am == 5) {
+      _pt_am = _pt_am;
+      _pt_ac = _pt_ac;
+      _message2 = "The lower limit is 5";
+      _is_error2 = true;
+    } else {
+      _pt_am = _pt_am - 0.5;
+      _pt_ac = _pt_ac - 0.5;
+      _is_error2 = false;
+    }
+  }
+
+  void increaseCS() {
+    if (_cs_am == 8700) {
+      _cs_am = _cs_am;
+      _cs_ac = _cs_ac;
+      _message3 = "The higher limit is 8760";
+      _is_error3 = true;
+    } else {
+      _cs_am = _cs_am + 100;
+      _cs_ac = _cs_ac + 100;
+      _is_error3 = false;
+    }
+  }
+
+  void decreaseCS() {
+    if (_cs_am == 1000) {
+      _cs_am = _cs_am;
+      _cs_ac = _cs_ac;
+      _message3 = "The lower limit is 1000";
+      _is_error3 = true;
+    } else {
+      _cs_am = _cs_am - 100;
+      _cs_ac = _cs_ac - 100;
+      _is_error3 = false;
     }
   }
 

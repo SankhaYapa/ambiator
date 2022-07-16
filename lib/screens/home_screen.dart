@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:ambiator/components/custom_text.dart';
 import 'package:ambiator/components/custome_textfield.dart';
+import 'package:ambiator/components/increamentBar1.dart';
+import 'package:ambiator/components/increamentBar2.dart';
+import 'package:ambiator/components/increamentBar2.dart';
+import 'package:ambiator/components/increamentBar3.dart';
 import 'package:ambiator/components/table_details.dart';
 import 'package:ambiator/provider/counter_provider.dart';
 import 'package:ambiator/screens/dashboard_screen.dart';
+import 'package:ambiator/screens/exit_screen.dart';
 import 'package:ambiator/utils/app_colors.dart';
 import 'package:ambiator/utils/util_function.dart';
 import 'package:data_table_2/data_table_2.dart';
@@ -10,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -34,183 +42,263 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  String x = '';
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(child: Consumer<CounterProvider>(
-        builder: (context, value, child) {
-          return Column(
-            children: [
-              IncrementBar(size: size),
-              Container(
-                // onDoubleTap: () {
-                //   UtilFunction.navigateTo(context, DashboardScreen());
-                // },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: Color.fromARGB(31, 62, 61, 61),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(5),
+              child: Consumer<CounterProvider>(
+                builder: (context, value, child) {
+                  return Column(
                     children: [
+                      SizedBox(
+                        height: 75,
+                      ),
+                      IncrementBar1(size: size),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      IncrementBar2(size: size),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      IncrementBar3(size: size),
                       Container(
-                        width: size.width / 1.5,
-                        height: 50,
-                        child: TextField(
-                          decoration: InputDecoration(
-                              hintText: 'Search',
-                              filled: true,
-                              fillColor: Colors.white,
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.black12)),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              )),
+                        // onDoubleTap: () {
+                        //   UtilFunction.navigateTo(context, DashboardScreen());
+                        // },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // Container(
+                              //   width: size.width / 1.5,
+                              //   height: 50,
+                              //   child: TextField(
+                              //     decoration: InputDecoration(
+                              //         hintText: 'Search',
+                              //         filled: true,
+                              //         fillColor: Colors.white,
+                              //         enabledBorder: OutlineInputBorder(
+                              //             borderSide:
+                              //                 BorderSide(color: Colors.black12)),
+                              //         focusedBorder: OutlineInputBorder(
+                              //           borderRadius: BorderRadius.circular(10),
+                              //         )),
+                              //   ),
+                              // ),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        isVisible = !isVisible;
+                                        final now = DateTime.now();
+                                        time =
+                                            DateFormat('dd-MM-yy').format(now);
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        // Visibility(
+                                        //   visible: isVisible,
+                                        //   child: Container(
+                                        //     child: Icon(
+                                        //       Icons.dashboard,
+                                        //       size: 40,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        Visibility(
+                                          visible: !isVisible,
+                                          child: Container(
+                                            child: Icon(
+                                              Icons.table_chart,
+                                              size: 40,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            child: Icon(
-                              Icons.filter_alt_sharp,
-                              size: 40,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                isVisible = !isVisible;
-                                final now = DateTime.now();
-                                time = DateFormat('dd-MM-yy').format(now);
-                              });
-                            },
-                            child: Row(
-                              children: [
-                                Visibility(
-                                  visible: isVisible,
-                                  child: Container(
-                                    child: Icon(
-                                      Icons.dashboard,
-                                      size: 40,
-                                    ),
-                                  ),
+                      Container(
+                        color: kwhite,
+                        child: Visibility(
+                          visible: isVisible,
+                          child: Column(
+                            children: [
+                              TableHeadder(),
+                              TableDetailsRow(
+                                des: "Number of Units",
+                                units: "Nos",
+                                amb: value.getNouAm.toStringAsFixed(0),
+                                ac: value.getNouAc.toStringAsFixed(0),
+                              ),
+                              Container(
+                                color: Colors.black12,
+                                child: TableDetailsRow(
+                                  des: "Connected Power",
+                                  units: "kW",
+                                  amb: value.getCpAm.toStringAsFixed(1),
+                                  ac: value.getCpAc.toStringAsFixed(1),
                                 ),
-                                Visibility(
-                                  visible: !isVisible,
-                                  child: Container(
-                                    child: Icon(
-                                      Icons.table_chart,
-                                      size: 40,
-                                    ),
-                                  ),
+                              ),
+                              TableDetailsRow(
+                                des: "Absorbed Power",
+                                units: "kW",
+                                amb: value.getApAm.toStringAsFixed(1),
+                                ac: value.getApAc.toStringAsFixed(1),
+                              ),
+                              Container(
+                                color: Colors.black12,
+                                child: TableDetailsRow(
+                                  des: "Water use(Avg)",
+                                  units: "Ltrs/Hr.",
+                                  amb: value.getWuAm.toStringAsFixed(0),
                                 ),
-                              ],
-                            ),
+                              ),
+                              TableDetailsRow(
+                                des: "Capial Cost",
+                                units: "INR Lacs",
+                                amb: value.getCcAm.toStringAsFixed(1),
+                                ac: value.getCcAc.toStringAsFixed(1),
+                              ),
+                              // Container(
+                              //   color: Colors.black12,
+                              //   child: TableDetailsRow(
+                              //     des: "Power Tarrif",
+                              //     units: "INR/kWh",
+                              //     amb: value.getPtAm.toStringAsFixed(1),
+                              //     ac: value.getPtAc.toStringAsFixed(1),
+                              //   ),
+                              // ),
+                              // TableDetailsRow(
+                              //   des: "Cooling Season",
+                              //   units: "Hours",
+                              //   amb: value.getCsAm.toStringAsFixed(1),
+                              //   ac: value.getCsAc.toStringAsFixed(1),
+                              // ),
+                              Container(
+                                color: Colors.black12,
+                                child: TableDetailsRow(
+                                  des: "Oparating Cost/\nYear",
+                                  units: "INR Lacs",
+                                  amb: value.getOcAm.toStringAsFixed(2),
+                                  ac: value.getOcAc.toStringAsFixed(2),
+                                ),
+                              ),
+                              TableDetailsRow(
+                                des: "CAPEX  Savings ",
+                                units: "INR Lacs",
+                                amb: value.getCSrving.toStringAsFixed(2),
+                                align3: TextAlign.center,
+                              ),
+                              Container(
+                                color: Colors.black12,
+                                child: TableDetailsRow(
+                                  des: "Annual OPEX Savings ",
+                                  units: "INR Lacs",
+                                  amb: value.getAOseving.toStringAsFixed(2),
+                                  align3: TextAlign.center,
+                                ),
+                              ),
+                              TableDetailsRow(
+                                des: "Total Savings",
+                                units: "INR Lacs",
+                                amb: value.getTServing.toStringAsFixed(2),
+                                align3: TextAlign.center,
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: isVisible,
-                child: Column(
-                  children: [
-                    TableHeadder(),
-                    TableDetailsRow(
-                      des: "Number of Units",
-                      units: "kW",
-                      amb: value.getNouAm.toString(),
-                      ac: value.getNouAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Connected Power",
-                      units: "Nos",
-                      amb: value.getCpAm.toString(),
-                      ac: value.getCpAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Absorbed Power",
-                      units: "kW",
-                      amb: value.getApAm.toString(),
-                      ac: value.getApAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Water use(Avg)",
-                      units: "Ltrs/Hr.",
-                      amb: value.getWuAm.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Capial Cost",
-                      units: "INR Lacs",
-                      amb: value.getCcAm.toString(),
-                      ac: value.getCcAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Power Tarrif",
-                      units: "INR/kWh",
-                      amb: value.getPtAm.toString(),
-                      ac: value.getPtAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Cooling Season",
-                      units: "Hours",
-                      amb: value.getCsAm.toString(),
-                      ac: value.getCsAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "Oparating Cost/\nYear",
-                      units: "INR Lacs",
-                      amb: value.getOcAm.toString(),
-                      ac: value.getOcAc.toString(),
-                    ),
-                    TableDetailsRow(
-                      des: "CAPEX  Savings ",
-                      units: "INR Lacs",
-                      amb: value.getCSrving.toString(),
-                      align3: TextAlign.right,
-                    ),
-                    TableDetailsRow(
-                      des: "Annual OPEX Savings ",
-                      units: "INR Lacs",
-                      amb: value.getAOseving.toString(),
-                      align3: TextAlign.right,
-                    ),
-                    TableDetailsRow(
-                      des: "Total Savings",
-                      units: "INR Lacs",
-                      amb: value.getTServing.toString(),
-                      align3: TextAlign.right,
-                    ),
-                  ],
-                ),
-              ),
+                        ),
+                      ),
 
-              // Visibility(
-              //   visible: isVisible,
-              //   child: DataTabel(
-              //     count: counter.toString(),
-              //   ),
-              // ),
-              Dashboard(
-                isVisible: isVisible,
-                size: size,
-                chartData: _chartData,
-                time: time,
+                      // Visibility(
+                      //   visible: isVisible,
+                      //   child: DataTabel(
+                      //     count: counter.toString(),
+                      //   ),
+                      // ),
+                      Dashboard(
+                        isVisible: isVisible,
+                        size: size,
+                        chartData: _chartData,
+                        time: time,
+                      ),
+                    ],
+                  );
+                },
               ),
-            ],
-          );
-        },
-      )),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => ExitScreen())));
+                    },
+                    child: CustomText(
+                      text: 'WoW Thanks',
+                      fontSize: 20,
+                      color: kwhite,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: kpink,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
+      ),
+      // InkWell(
+      //   onTap: () {},
+      //   child: Container(
+      //     width: size.width,
+      //     height: 50,
+      //     padding: EdgeInsets.all(15),
+      //     decoration: BoxDecoration(
+      //       color: kpink,
+      //     ),
+      //     child: CustomText(
+      //       text: "CALCULATE",
+      //       textAlign: TextAlign.center,
+      //       fontWeight: FontWeight.w600,
+      //       color: kwhite,
+      //       fontSize: 18,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({
     Key? key,
     required this.isVisible,
@@ -224,134 +312,152 @@ class Dashboard extends StatelessWidget {
   final Size size;
   final List<GDPData> _chartData;
   final String time;
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Visibility(
-          visible: !isVisible,
-          child: Consumer<CounterProvider>(
-            builder: (context, value, child) {
-              return Container(
-                  height: size.height,
-                  color: dashback,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: 'Records:11',
-                              fontSize: 20,
+    return Visibility(
+        visible: !widget.isVisible,
+        child: Consumer<CounterProvider>(
+          builder: (context, value, child) {
+            return Container(
+                color: dashback,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: 'Records:11',
+                            fontSize: 20,
+                            color: kwhite,
+                          ),
+                          Row(
+                            children: [
+                              CustomText(
+                                text: 'Last Update:',
+                                fontSize: 20,
+                                color: kwhite,
+                              ),
+                              CustomText(
+                                text: widget.time,
+                                fontSize: 20,
+                                color: kwhite,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            color: boxcl,
+                            height: 140,
+                            width: 250,
+                            child: Stack(children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.bar_chart,
+                                      color: kwhite, size: 75),
+                                  CustomText(
+                                    text: 'Units',
+                                    fontSize: 20,
+                                    color: kwhite,
+                                  ),
+                                  CustomText(
+                                    text: value.getNouAm.toString(),
+                                    fontSize: 20,
+                                    color: kwhite,
+                                  )
+                                ],
+                              ),
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Consumer<CounterProvider>(
+                      builder: (context, value, child) {
+                        return GestureDetector(
+                          onTap: () {
+                            RefreshProgressIndicator.defaultStrokeWidth;
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: kwhite)),
+                            alignment: Alignment.center,
+                            width: widget.size.width,
+                            child: CustomText(
+                              text: 'Count',
+                              fontSize: 30,
                               color: kwhite,
                             ),
-                            Row(
-                              children: [
-                                CustomText(
-                                  text: 'Last Update:',
-                                  fontSize: 20,
-                                  color: kwhite,
-                                ),
-                                CustomText(
-                                  text: time,
-                                  fontSize: 20,
-                                  color: kwhite,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              color: boxcl,
-                              height: 140,
-                              width: 250,
-                              child: Stack(children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.bar_chart,
-                                        color: kwhite, size: 75),
-                                    CustomText(
-                                      text: 'Units',
-                                      fontSize: 20,
-                                      color: kwhite,
-                                    ),
-                                    CustomText(
-                                      text: value.getNouAm.toString(),
-                                      fontSize: 20,
-                                      color: kwhite,
-                                    )
-                                  ],
-                                ),
-                              ]),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        decoration:
-                            BoxDecoration(border: Border.all(color: kwhite)),
-                        alignment: Alignment.center,
-                        width: size.width,
-                        child: CustomText(
-                          text: 'Count',
-                          fontSize: 30,
-                          color: kwhite,
-                        ),
-                      ),
-                      Container(
-                        height: size.width / 1.5,
-                        width: size.width,
-                        child: SfCartesianChart(
-                          series: <ChartSeries>[
-                            BarSeries<GDPData, String>(
-                                color: kgreen,
-                                dataSource: _chartData,
-                                xValueMapper: (GDPData gdp, _) => gdp.continent,
-                                yValueMapper: (GDPData gdp, _) => gdp.gdp,
-                                dataLabelSettings: DataLabelSettings(
-                                    isVisible: true,
-                                    color: kpink,
-                                    borderColor: kblack,
-                                    borderWidth: 1,
-                                    textStyle: TextStyle(fontSize: 20)))
-                          ],
-                          primaryXAxis: CategoryAxis(
-                              labelStyle:
-                                  TextStyle(fontSize: 15, color: kwhite)),
-                          primaryYAxis: NumericAxis(
-                              labelStyle:
-                                  TextStyle(fontSize: 15, color: kwhite)),
-                        ),
-                      ),
-                    ],
-                  ));
-            },
-          )),
-    );
+                          ),
+                        );
+                      },
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Consumer(
+                          builder: (context, value, child) {
+                            return Container(
+                              width: widget.size.width,
+                              child: SfCartesianChart(
+                                series: <ChartSeries>[
+                                  BarSeries<GDPData, String>(
+                                      color: kgreen,
+                                      dataSource: widget._chartData,
+                                      xValueMapper: (GDPData gdp, _) =>
+                                          gdp.continent,
+                                      yValueMapper: (GDPData gdp, _) => gdp.gdp,
+                                      dataLabelSettings: DataLabelSettings(
+                                          isVisible: true,
+                                          color: kpink,
+                                          borderColor: kblack,
+                                          borderWidth: 1,
+                                          textStyle: TextStyle(fontSize: 20)))
+                                ],
+                                primaryXAxis: CategoryAxis(
+                                    labelStyle:
+                                        TextStyle(fontSize: 15, color: kwhite)),
+                                primaryYAxis: NumericAxis(
+                                    labelStyle:
+                                        TextStyle(fontSize: 15, color: kwhite)),
+                              ),
+                            );
+                          },
+                        )),
+                  ],
+                ));
+          },
+        ));
   }
 }
 
 List<GDPData> getChartData() {
   final List<GDPData> chartData = [
-    GDPData('Hours', 9),
-    GDPData('INR Lacs', 8),
-    GDPData('INR/Kwh', 1),
-    GDPData('kW', 1),
-    GDPData('Ltrs/Hr', 1),
-    GDPData('Nos', 1),
+    GDPData('Hours', CounterProvider().getCsAm),
+    GDPData('INR Lacs', CounterProvider().getOcAm),
+    GDPData('INR/Kwh', CounterProvider().getPtAm),
+    GDPData('kW', CounterProvider().getApAm),
+    GDPData('Ltrs/Hr', CounterProvider().getWuAm),
+    GDPData('Nos', CounterProvider().getCpAm),
   ];
   return chartData;
 }
@@ -360,101 +466,6 @@ class GDPData {
   GDPData(this.continent, this.gdp);
   final String continent;
   final double gdp;
-}
-
-class IncrementBar extends StatelessWidget {
-  const IncrementBar({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          color: grayColor,
-          width: size.width,
-          height: size.height / 5,
-        ),
-        Positioned(
-          bottom: 10,
-          left: 10,
-          child: Stack(children: [
-            Container(
-              width: size.width - 20,
-              height: 100,
-              color: kwhite,
-              child: Padding(
-                padding: const EdgeInsets.all(13.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Provider.of<CounterProvider>(context, listen: false)
-                            .decreaseCounter();
-
-                        Provider.of<CounterProvider>(context, listen: false)
-                            .setunits();
-
-                        // setState(() {
-                        //   counter--;
-                        // });
-                      },
-                      child: Icon(Icons.remove),
-                      style: ElevatedButton.styleFrom(
-                        primary: kpink,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(50.0),
-                        ),
-                      ),
-                    ),
-                    Consumer<CounterProvider>(
-                      builder: (context, value, child) {
-                        return CustomText(
-                          text: value.getCounter.toString(),
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                        );
-                      },
-                    ),
-
-                    // Text(
-                    //   'data',
-                    //   style: TextStyle(
-                    //       fontSize: 30, fontWeight: FontWeight.w500),
-                    // ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Provider.of<CounterProvider>(context, listen: false)
-                            .increaseCounter();
-                        Provider.of<CounterProvider>(context, listen: false)
-                            .setunits();
-                        // setState(() {
-                        //   counter++;
-                        // });
-                      },
-                      child: Icon(Icons.add),
-                      style: ElevatedButton.styleFrom(
-                        primary: kpink,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(50.0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
-        )
-      ],
-    );
-  }
 }
 
 // class DataTabel extends StatelessWidget {

@@ -1,8 +1,10 @@
 import 'package:ambiator/provider/bottom_nar_provider.dart';
+import 'package:ambiator/provider/counter_provider.dart';
 import 'package:ambiator/screens/dashboard_screen.dart';
 import 'package:ambiator/screens/start_screen.dart';
 import 'package:ambiator/utils/util_function.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   // int _currentIndex = 0;
-  List<Widget> _screens = [StartScreen(), HomeScreen()];
+  List<Widget> _screens = [HomeScreen()];
   Future<bool> initBackButton() async {
     Logger().d('back button press');
 
@@ -58,16 +60,10 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     BottomNavTile(
-                        text: 'START',
-                        isSelected: value.activeIndex == 0,
-                        ontap: () {
-                          value.onItemTapped(0);
-                        }),
-                    BottomNavTile(
                       text: 'CALCULATE',
-                      isSelected: value.activeIndex == 1,
+                      isSelected: value.activeIndex == 0,
                       ontap: () {
-                        value.onItemTapped(1);
+                        value.onItemTapped(0);
                       },
                     ),
                   ],
@@ -95,7 +91,7 @@ class BottomNavTile extends StatelessWidget {
     return InkWell(
       onTap: ontap,
       child: Container(
-        width: size.width / 2,
+        width: size.width,
         height: 60,
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(

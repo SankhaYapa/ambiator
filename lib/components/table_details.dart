@@ -1,3 +1,4 @@
+import 'package:ambiator/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class TableHeadder extends StatelessWidget {
@@ -7,26 +8,34 @@ class TableHeadder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Table(
-      //border: TableBorder.all(),
-      children: const [
-        TableRow(
-          children: [
-            ColumnTitle(
-              title: 'Description',
-            ),
-            ColumnTitle(
-              title: 'Units',
-            ),
-            ColumnTitle(
-              title: 'Amblator',
-            ),
-            ColumnTitle(
-              title: 'Ac',
-            ),
-          ],
-        ),
-      ],
+    return Container(
+      color: Colors.black26,
+      child: Table(
+        border: TableBorder.all(color: grayColor),
+        columnWidths: const {
+          0: FixedColumnWidth(160),
+          1: FlexColumnWidth(),
+          2: FlexColumnWidth()
+        },
+        children: const [
+          TableRow(
+            children: [
+              ColumnTitle(
+                title: 'Description',
+              ),
+              ColumnTitle(
+                title: 'Units',
+              ),
+              ColumnTitle(
+                title: 'AMBIATOR',
+              ),
+              ColumnTitle(
+                title: 'AC',
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -58,16 +67,23 @@ class TableDetailsRow extends StatelessWidget {
       onDoubleTap: () {
         print("click");
       },
-      child: Table(
-        //border: TableBorder.all(),
-        children: [
-          TableRow(children: [
-            DataCell(data: des, align: align1),
-            DataCell(data: units, align: align2),
-            DataCell(data: amb, align: align3),
-            DataCell(data: ac, align: align4),
-          ])
-        ],
+      child: Container(
+        child: Table(
+          columnWidths: const {
+            0: FixedColumnWidth(160),
+            1: FlexColumnWidth(),
+            2: FlexColumnWidth()
+          },
+          border: TableBorder.all(color: grayColor),
+          children: [
+            TableRow(children: [
+              DataCell(data: des, align: TextAlign.left),
+              DataCell(data: units, align: align2),
+              DataCell(data: amb, align: align3),
+              DataCell(data: ac, align: align4),
+            ])
+          ],
+        ),
       ),
     );
   }
@@ -84,14 +100,18 @@ class DataCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.black12,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      child: Text(
-        data,
-        textAlign: align,
-        style: TextStyle(
-          fontSize: 14,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        //color: Colors.black12,
+
+        padding: EdgeInsets.symmetric(vertical: 15),
+        child: Text(
+          data,
+          textAlign: align,
+          style: TextStyle(
+            fontSize: 14,
+          ),
         ),
       ),
     );
