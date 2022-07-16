@@ -57,6 +57,12 @@ class CounterProvider extends ChangeNotifier {
     }
   }
 
+  void count() {
+    Future.delayed(Duration(seconds: 10), () {
+      _is_error = false;
+    });
+  }
+
   void decreaseCounter() {
     if (_counter == 5) {
       _counter = _counter;

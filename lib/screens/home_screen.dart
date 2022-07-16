@@ -406,6 +406,8 @@ class IncrementBar extends StatelessWidget {
                         Provider.of<CounterProvider>(context, listen: false)
                             .setunits();
 
+                        Provider.of<CounterProvider>(context, listen: false)
+                            .count();
                         // setState(() {
                         //   counter--;
                         // });
@@ -450,9 +452,8 @@ class IncrementBar extends StatelessWidget {
                             .increaseCounter();
                         Provider.of<CounterProvider>(context, listen: false)
                             .setunits();
-                        // setState(() {
-                        //   counter++;
-                        // });
+                        Provider.of<CounterProvider>(context, listen: false)
+                            .count();
                       },
                       child: Icon(Icons.add),
                       style: ElevatedButton.styleFrom(
