@@ -94,6 +94,12 @@ class CounterProvider extends ChangeNotifier {
       _pt_ac = _pt_ac + 0.5;
       _is_error2 = false;
     }
+    _counter = 80;
+
+    _cs_am = 1000;
+    _cs_ac = 1000;
+
+    notifyListeners();
   }
 
   void decreasePT() {
@@ -107,6 +113,12 @@ class CounterProvider extends ChangeNotifier {
       _pt_ac = _pt_ac - 0.5;
       _is_error2 = false;
     }
+    _counter = 80;
+
+    _cs_am = 1000;
+    _cs_ac = 1000;
+
+    notifyListeners();
   }
 
   void increaseCS() {
@@ -120,6 +132,12 @@ class CounterProvider extends ChangeNotifier {
       _cs_ac = _cs_ac + 100;
       _is_error3 = false;
     }
+    _counter = 80;
+
+    _pt_am = 10;
+    _pt_ac = 10;
+
+    notifyListeners();
   }
 
   void decreaseCS() {
@@ -133,6 +151,12 @@ class CounterProvider extends ChangeNotifier {
       _cs_ac = _cs_ac - 100;
       _is_error3 = false;
     }
+    _counter = 80;
+
+    _pt_am = 10;
+    _pt_ac = 10;
+
+    notifyListeners();
   }
 
   void setunits() {

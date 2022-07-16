@@ -41,9 +41,9 @@ class IncrementBar3 extends StatelessWidget {
                         onPressed: () {
                           Provider.of<CounterProvider>(context, listen: false)
                               .setunits();
-
                           Provider.of<CounterProvider>(context, listen: false)
                               .decreaseCS();
+
                           // setState(() {
                           //   counter--;
                           // });
