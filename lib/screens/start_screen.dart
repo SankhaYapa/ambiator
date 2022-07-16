@@ -1,4 +1,6 @@
 import 'package:ambiator/components/custom_text.dart';
+import 'package:ambiator/screens/home_screen.dart';
+import 'package:ambiator/screens/main_screen.dart';
 import 'package:ambiator/utils/app_colors.dart';
 import 'package:ambiator/utils/constant.dart';
 import 'package:animate_do/animate_do.dart';
@@ -14,6 +16,18 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(
+      Duration(seconds: 5),
+      () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => MainScreen())));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

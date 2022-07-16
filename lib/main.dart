@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainScreen(),
+      home: const StartScreen(),
       builder: (context, widget) => ResponsiveWrapper.builder(widget,
           maxWidth: 1200,
           minWidth: 480,

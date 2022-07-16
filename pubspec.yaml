@@ -46,7 +46,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  syncfusion_flutter_charts: ^20.2.36  
+  syncfusion_flutter_charts: ^20.2.36
+  flutter_launcher_icons: ^0.9.3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
