@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String time = '?';
   int counter = 0;
   bool isVisible = true;
+  bool errorText = false;
   late List<GDPData> _chartData;
   @override
   void initState() {
